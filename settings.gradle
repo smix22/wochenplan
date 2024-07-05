@@ -1,0 +1,3 @@
+rootProject.name = 'wochenplan'
+include 'backend'
+include 'frontend'

@@ -1,0 +1,10 @@
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:6432/wp
+    username: admin
+    password: admin
+
+  jpa:
+    hibernate:
+      ddl-auto: update
