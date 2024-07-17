@@ -4,7 +4,9 @@
 package de.netgo.wochenplan.jooq;
 
 
+import de.netgo.wochenplan.jooq.tables.Aktivitaet;
 import de.netgo.wochenplan.jooq.tables.Benutzer;
+import de.netgo.wochenplan.jooq.tables.Wochenplan;
 
 
 /**
@@ -14,7 +16,17 @@ import de.netgo.wochenplan.jooq.tables.Benutzer;
 public class Tables {
 
     /**
+     * The table <code>public.aktivitaet</code>.
+     */
+    public static final Aktivitaet AKTIVITAET = Aktivitaet.AKTIVITAET;
+
+    /**
      * The table <code>public.benutzer</code>.
      */
     public static final Benutzer BENUTZER = Benutzer.BENUTZER;
+
+    /**
+     * The table <code>public.wochenplan</code>.
+     */
+    public static final Wochenplan WOCHENPLAN = Wochenplan.WOCHENPLAN;
 }

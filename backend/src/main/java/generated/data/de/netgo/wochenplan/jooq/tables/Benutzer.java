@@ -6,6 +6,7 @@ package de.netgo.wochenplan.jooq.tables;
 
 import de.netgo.wochenplan.jooq.Keys;
 import de.netgo.wochenplan.jooq.Public;
+import de.netgo.wochenplan.jooq.tables.Wochenplan.WochenplanPath;
 import de.netgo.wochenplan.jooq.tables.records.BenutzerRecord;
 
 import java.util.Collection;
@@ -13,9 +14,13 @@ import java.util.UUID;
 
 import org.jooq.Condition;
 import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.InverseForeignKey;
 import org.jooq.Name;
+import org.jooq.Path;
 import org.jooq.PlainSQL;
 import org.jooq.QueryPart;
+import org.jooq.Record;
 import org.jooq.SQL;
 import org.jooq.Schema;
 import org.jooq.Select;
@@ -89,6 +94,37 @@ public class Benutzer extends TableImpl<BenutzerRecord> {
         this(DSL.name("benutzer"), null);
     }
 
+    public <O extends Record> Benutzer(Table<O> path, ForeignKey<O, BenutzerRecord> childPath, InverseForeignKey<O, BenutzerRecord> parentPath) {
+        super(path, childPath, parentPath, BENUTZER);
+    }
+
+    /**
+     * A subtype implementing {@link Path} for simplified path-based joins.
+     */
+    public static class BenutzerPath extends Benutzer implements Path<BenutzerRecord> {
+        public <O extends Record> BenutzerPath(Table<O> path, ForeignKey<O, BenutzerRecord> childPath, InverseForeignKey<O, BenutzerRecord> parentPath) {
+            super(path, childPath, parentPath);
+        }
+        private BenutzerPath(Name alias, Table<BenutzerRecord> aliased) {
+            super(alias, aliased);
+        }
+
+        @Override
+        public BenutzerPath as(String alias) {
+            return new BenutzerPath(DSL.name(alias), this);
+        }
+
+        @Override
+        public BenutzerPath as(Name alias) {
+            return new BenutzerPath(alias, this);
+        }
+
+        @Override
+        public BenutzerPath as(Table<?> alias) {
+            return new BenutzerPath(alias.getQualifiedName(), this);
+        }
+    }
+
     @Override
     public Schema getSchema() {
         return aliased() ? null : Public.PUBLIC;
@@ -97,6 +133,19 @@ public class Benutzer extends TableImpl<BenutzerRecord> {
     @Override
     public UniqueKey<BenutzerRecord> getPrimaryKey() {
         return Keys.BENUTZER_PKEY;
+    }
+
+    private transient WochenplanPath _wochenplan;
+
+    /**
+     * Get the implicit to-many join path to the <code>public.wochenplan</code>
+     * table
+     */
+    public WochenplanPath wochenplan() {
+        if (_wochenplan == null)
+            _wochenplan = new WochenplanPath(this, null, Keys.WOCHENPLAN__WOCHENPLAN_BENUTZER_ID_FKEY.getInverseKey());
+
+        return _wochenplan;
     }
 
     @Override

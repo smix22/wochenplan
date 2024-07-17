@@ -4,9 +4,14 @@
 package de.netgo.wochenplan.jooq;
 
 
+import de.netgo.wochenplan.jooq.tables.Aktivitaet;
 import de.netgo.wochenplan.jooq.tables.Benutzer;
+import de.netgo.wochenplan.jooq.tables.Wochenplan;
+import de.netgo.wochenplan.jooq.tables.records.AktivitaetRecord;
 import de.netgo.wochenplan.jooq.tables.records.BenutzerRecord;
+import de.netgo.wochenplan.jooq.tables.records.WochenplanRecord;
 
+import org.jooq.ForeignKey;
 import org.jooq.TableField;
 import org.jooq.UniqueKey;
 import org.jooq.impl.DSL;
@@ -24,5 +29,14 @@ public class Keys {
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
+    public static final UniqueKey<AktivitaetRecord> AKTIVITAET_PKEY = Internal.createUniqueKey(Aktivitaet.AKTIVITAET, DSL.name("aktivitaet_pkey"), new TableField[] { Aktivitaet.AKTIVITAET.ID }, true);
     public static final UniqueKey<BenutzerRecord> BENUTZER_PKEY = Internal.createUniqueKey(Benutzer.BENUTZER, DSL.name("benutzer_pkey"), new TableField[] { Benutzer.BENUTZER.ID }, true);
+    public static final UniqueKey<WochenplanRecord> WOCHENPLAN_PKEY = Internal.createUniqueKey(Wochenplan.WOCHENPLAN, DSL.name("wochenplan_pkey"), new TableField[] { Wochenplan.WOCHENPLAN.ID }, true);
+
+    // -------------------------------------------------------------------------
+    // FOREIGN KEY definitions
+    // -------------------------------------------------------------------------
+
+    public static final ForeignKey<AktivitaetRecord, WochenplanRecord> AKTIVITAET__AKTIVITAET_WOCHENPLAN_ID_FKEY = Internal.createForeignKey(Aktivitaet.AKTIVITAET, DSL.name("aktivitaet_wochenplan_id_fkey"), new TableField[] { Aktivitaet.AKTIVITAET.WOCHENPLAN_ID }, Keys.WOCHENPLAN_PKEY, new TableField[] { Wochenplan.WOCHENPLAN.ID }, true);
+    public static final ForeignKey<WochenplanRecord, BenutzerRecord> WOCHENPLAN__WOCHENPLAN_BENUTZER_ID_FKEY = Internal.createForeignKey(Wochenplan.WOCHENPLAN, DSL.name("wochenplan_benutzer_id_fkey"), new TableField[] { Wochenplan.WOCHENPLAN.BENUTZER_ID }, Keys.BENUTZER_PKEY, new TableField[] { Benutzer.BENUTZER.ID }, true);
 }

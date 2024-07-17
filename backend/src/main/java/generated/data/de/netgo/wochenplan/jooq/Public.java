@@ -4,7 +4,9 @@
 package de.netgo.wochenplan.jooq;
 
 
+import de.netgo.wochenplan.jooq.tables.Aktivitaet;
 import de.netgo.wochenplan.jooq.tables.Benutzer;
+import de.netgo.wochenplan.jooq.tables.Wochenplan;
 
 import java.util.Arrays;
 import java.util.List;
@@ -28,9 +30,19 @@ public class Public extends SchemaImpl {
     public static final Public PUBLIC = new Public();
 
     /**
+     * The table <code>public.aktivitaet</code>.
+     */
+    public final Aktivitaet AKTIVITAET = Aktivitaet.AKTIVITAET;
+
+    /**
      * The table <code>public.benutzer</code>.
      */
     public final Benutzer BENUTZER = Benutzer.BENUTZER;
+
+    /**
+     * The table <code>public.wochenplan</code>.
+     */
+    public final Wochenplan WOCHENPLAN = Wochenplan.WOCHENPLAN;
 
     /**
      * No further instances allowed
@@ -48,7 +60,9 @@ public class Public extends SchemaImpl {
     @Override
     public final List<Table<?>> getTables() {
         return Arrays.asList(
-            Benutzer.BENUTZER
+            Aktivitaet.AKTIVITAET,
+            Benutzer.BENUTZER,
+            Wochenplan.WOCHENPLAN
         );
     }
 }
